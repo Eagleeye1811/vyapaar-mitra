@@ -1,0 +1,23 @@
+# Vyapaar-Mitra backend — core dependencies for the operations agentic engine.
+# (Phase 1: agentic reasoning engine only — no FastAPI yet.)
+
+# --- LangGraph orchestration ---
+langgraph==1.0.5
+langgraph-checkpoint==3.0.1
+langgraph-checkpoint-firestore==0.1.7      # FirestoreSaver checkpointer
+
+# --- Open-source LLM providers (structured outputs) ---
+langchain-core==1.4.7
+langchain-groq==0.3.2                       # ChatGroq — Llama 3.3 70B (cloud)
+langchain-community==0.3.27                 # ChatOllama — Llama 3.3 70B (local)
+
+# --- Google Cloud / Firestore ---
+google-cloud-firestore==2.23.0
+
+# --- Data modelling ---
+pydantic==2.10.3
+
+# --- API delivery layer ---
+fastapi==0.115.6
+uvicorn==0.32.1
+httpx==0.28.1                              # TestClient / outbound calls
