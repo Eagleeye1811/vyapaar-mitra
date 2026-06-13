@@ -21,3 +21,4 @@ pydantic==2.10.3
 fastapi==0.115.6
 uvicorn==0.32.1
 httpx==0.28.1                              # TestClient / outbound calls
+firebase-admin
