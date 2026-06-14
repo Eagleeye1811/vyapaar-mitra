@@ -1,8 +1,33 @@
 @import "tailwindcss";
 
+/* ===========================================================================
+   Vyapaar-Mitra design tokens
+   Premium, clean, production-grade. The brand accent is a single source of
+   truth — change --brand-600 (and its scale) to re-skin the whole product.
+   =========================================================================== */
+
 :root {
-  --background: #f6f7f9;
-  --foreground: #0f172a;
+  /* Neutral canvas */
+  --background: #f7f8fa;
+  --foreground: #0b1220;
+
+  /* Brand (indigo) — the one accent used for actions, focus, highlights */
+  --brand-50: #eef2ff;
+  --brand-100: #e0e7ff;
+  --brand-200: #c7d2fe;
+  --brand-300: #a5b4fc;
+  --brand-400: #818cf8;
+  --brand-500: #6366f1;
+  --brand-600: #4f46e5;
+  --brand-700: #4338ca;
+  --brand-800: #3730a3;
+  --brand-900: #312e81;
+
+  /* Layered, soft shadows for real depth (not flat boxes) */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 2px 6px rgba(15, 23, 42, 0.05);
+  --shadow-card-hover: 0 6px 16px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.05);
+  --shadow-pop: 0 12px 34px rgba(15, 23, 42, 0.12);
 }
 
 @theme inline {
@@ -10,10 +35,66 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Expose the brand scale as Tailwind utilities: bg-brand-600, text-brand-700… */
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
+
+  /* Custom shadow utilities: shadow-card, shadow-card-hover, shadow-pop */
+  --shadow-card: var(--shadow-card);
+  --shadow-card-hover: var(--shadow-card-hover);
+  --shadow-pop: var(--shadow-pop);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Subtle, premium ambient backdrop — a faint brand wash at the top. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 32rem at 50% -8rem, rgba(79, 70, 229, 0.06), transparent 70%);
+}
+
+/* Brand-tinted text selection. */
+::selection {
+  background: var(--brand-200);
+  color: var(--brand-900);
+}
+
+/* Quiet, modern scrollbars. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.3);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.5);
+  background-clip: content-box;
 }
