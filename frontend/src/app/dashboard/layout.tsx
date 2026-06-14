@@ -52,8 +52,8 @@ export default function DashboardLayout({
   return (
     <OpsProvider>
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-        {/* Sub-navigation */}
-        <nav className="mb-8 flex gap-1 overflow-x-auto border-b border-slate-200">
+        {/* Sub-navigation — segmented pill nav */}
+        <nav className="mb-8 flex gap-1 overflow-x-auto rounded-2xl border border-slate-200/70 bg-white/70 p-1.5 shadow-card backdrop-blur">
           {TABS.map((t) => {
             const active =
               t.href === "/dashboard"
@@ -64,10 +64,10 @@ export default function DashboardLayout({
                 key={t.href}
                 href={t.href}
                 className={cn(
-                  "-mb-px inline-flex shrink-0 items-center gap-1.5 border-b-2 px-3 py-2.5 text-sm font-medium transition",
+                  "inline-flex shrink-0 items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition",
                   active
-                    ? "border-slate-900 text-slate-900"
-                    : "border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700",
+                    ? "bg-brand-600 text-white shadow-xs"
+                    : "text-slate-500 hover:bg-slate-100 hover:text-slate-900",
                 )}
               >
                 <t.icon className="h-4 w-4" />

@@ -39,11 +39,11 @@ export default function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/80 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/70 backdrop-blur-xl">
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         {/* Brand */}
-        <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 text-white">
+        <Link href="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-xs">
             <ShieldCheck className="h-5 w-5" />
           </span>
           <span className="text-base font-bold tracking-tight text-slate-900">
@@ -60,7 +60,7 @@ export default function Navbar() {
               className={cn(
                 "rounded-lg px-3 py-2 text-sm font-medium transition",
                 isActive(l.href)
-                  ? "bg-slate-100 text-slate-900"
+                  ? "bg-brand-50 text-brand-700"
                   : "text-slate-600 hover:bg-slate-50 hover:text-slate-900",
               )}
             >
@@ -76,14 +76,14 @@ export default function Navbar() {
           ) : user ? (
             <>
               <span
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold text-white"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-xs font-semibold text-white shadow-xs"
                 title={user.email}
               >
                 {user.email.charAt(0).toUpperCase()}
               </span>
               <button
                 onClick={handleSignOut}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-600 shadow-xs transition hover:bg-slate-50 hover:text-slate-900"
               >
                 <LogOut className="h-4 w-4" />
                 Sign out
@@ -99,7 +99,7 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/login?mode=signup"
-                className="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-brand-600 px-3.5 py-2 text-sm font-semibold text-white shadow-xs transition hover:bg-brand-700"
               >
                 <LayoutDashboard className="h-4 w-4" />
                 Get started
@@ -130,7 +130,7 @@ export default function Navbar() {
                 className={cn(
                   "block rounded-lg px-3 py-2 text-sm font-medium transition",
                   isActive(l.href)
-                    ? "bg-slate-100 text-slate-900"
+                    ? "bg-brand-50 text-brand-700"
                     : "text-slate-600 hover:bg-slate-50",
                 )}
               >
@@ -150,7 +150,7 @@ export default function Navbar() {
                 <Link
                   href="/login"
                   onClick={() => setOpen(false)}
-                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-slate-900 px-3 py-2 text-sm font-semibold text-white"
+                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-brand-600 px-3 py-2 text-sm font-semibold text-white"
                 >
                   Sign in
                 </Link>

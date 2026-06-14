@@ -9,6 +9,9 @@
 export interface SkuMetrics {
   on_hand: number;
   monthly_demand: number;
+  unit_cost: number;
+  unit_price: number;
+  lead_time_days: number;
 }
 
 export type Criticality = "LOW" | "MEDIUM" | "HIGH";
@@ -69,20 +72,61 @@ export interface MitigationPlaybook {
 
 export type Severity = "LOW" | "MEDIUM" | "HIGH";
 
+export type InventoryAction = "REORDER_NOW" | "MONITOR" | "OK" | "OVERSTOCKED";
+export type AbcClass = "A" | "B" | "C";
+
+export interface InventorySummary {
+  health_score: number;
+  total_inventory_value: number;
+  total_capital_trapped: number;
+  total_revenue_at_risk: number;
+  skus_total: number;
+  skus_reorder_now: number;
+  skus_dead: number;
+}
+
+export interface InventoryScenario {
+  name: string;
+  description: string;
+  urgent_stockouts: number;
+  skus_needing_reorder: number;
+  revenue_at_risk: number;
+  delta_vs_baseline: string;
+}
+
 export interface InventoryInsights {
+  summary: InventorySummary;
   dead_stock: {
     sku: string;
     on_hand: number;
     monthly_demand: number;
     months_of_cover: number;
+    capital_trapped: number;
     reason: string;
   }[];
   stockout_forecast: {
     sku: string;
     days_to_stockout: number;
     stockout_date: string;
+    revenue_at_risk: number;
     severity: Severity;
   }[];
+  reorder_recommendations: {
+    sku: string;
+    on_hand: number;
+    reorder_point: number;
+    safety_stock: number;
+    recommended_order_qty: number;
+    action: InventoryAction;
+    rationale: string;
+  }[];
+  abc_classification: {
+    sku: string;
+    annual_revenue: number;
+    revenue_share_pct: number;
+    abc_class: AbcClass;
+  }[];
+  scenarios: InventoryScenario[];
   key_findings: string[];
 }
 
