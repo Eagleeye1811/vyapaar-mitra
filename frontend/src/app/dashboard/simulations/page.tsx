@@ -24,12 +24,20 @@ export default function SimulationsPage() {
   const [runs, setRuns] = useState<RunRecord[]>([]);
 
   useEffect(() => {
-    if (user) setRuns(listRuns(user.uid));
+    let active = true;
+    if (user) {
+      listRuns(user.uid).then((r) => {
+        if (active) setRuns(r);
+      });
+    }
+    return () => {
+      active = false;
+    };
   }, [user]);
 
-  function handleClear() {
+  async function handleClear() {
     if (!user) return;
-    clearRuns(user.uid);
+    await clearRuns(user.uid);
     setRuns([]);
   }
 

@@ -40,11 +40,16 @@ def build_mock_inputs() -> dict:
         "raw_inputs": {
             "inventory": {
                 "skus": {
-                    "SKU-100": {"on_hand": 90, "monthly_demand": 300},   # imminent stockout
-                    "SKU-200": {"on_hand": 450, "monthly_demand": 400},  # healthy
-                    "SKU-300": {"on_hand": 40, "monthly_demand": 220},   # HIGH stockout
-                    "SKU-400": {"on_hand": 5000, "monthly_demand": 50},  # dead stock
-                    "SKU-500": {"on_hand": 800, "monthly_demand": 0},    # no demand
+                    # imminent stockout, fast mover
+                    "SKU-100": {"on_hand": 90, "monthly_demand": 300, "unit_cost": 120, "unit_price": 320, "lead_time_days": 21},
+                    # healthy
+                    "SKU-200": {"on_hand": 450, "monthly_demand": 400, "unit_cost": 60, "unit_price": 150, "lead_time_days": 14},
+                    # HIGH stockout
+                    "SKU-300": {"on_hand": 40, "monthly_demand": 220, "unit_cost": 200, "unit_price": 480, "lead_time_days": 30},
+                    # dead/slow stock — capital trapped
+                    "SKU-400": {"on_hand": 5000, "monthly_demand": 50, "unit_cost": 35, "unit_price": 90, "lead_time_days": 10},
+                    # no demand — fully trapped
+                    "SKU-500": {"on_hand": 800, "monthly_demand": 0, "unit_cost": 75, "unit_price": 160, "lead_time_days": 12},
                 },
             },
             "suppliers": {

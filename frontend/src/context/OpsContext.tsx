@@ -36,6 +36,9 @@ export interface SkuRow {
   sku: string;
   on_hand: number;
   monthly_demand: number;
+  unit_cost: number;
+  unit_price: number;
+  lead_time_days: number;
 }
 export interface VendorRow {
   name: string;
@@ -79,8 +82,9 @@ export interface MetricsDraft {
 // --- Defaults (mirror the backend example) ---------------------------------
 const DEFAULT_DRAFT: MetricsDraft = {
   skus: [
-    { sku: "SKU-300", on_hand: 40, monthly_demand: 220 },
-    { sku: "SKU-400", on_hand: 5000, monthly_demand: 50 },
+    { sku: "SKU-300", on_hand: 40, monthly_demand: 220, unit_cost: 200, unit_price: 480, lead_time_days: 30 },
+    { sku: "SKU-100", on_hand: 90, monthly_demand: 300, unit_cost: 120, unit_price: 320, lead_time_days: 21 },
+    { sku: "SKU-400", on_hand: 5000, monthly_demand: 50, unit_cost: 35, unit_price: 90, lead_time_days: 10 },
   ],
   vendors: [
     {
@@ -139,6 +143,25 @@ interface OpsContextValue {
 
 const OpsContext = createContext<OpsContextValue | null>(null);
 
+/**
+ * Backfill SKU fields added after a draft may have been persisted (unit_cost,
+ * unit_price, lead_time_days), so older stored drafts stay valid controlled
+ * inputs instead of becoming `undefined`/NaN.
+ */
+function normalizeDraft(draft: MetricsDraft): MetricsDraft {
+  return {
+    ...draft,
+    skus: (draft.skus ?? []).map((s) => ({
+      sku: s.sku ?? "",
+      on_hand: s.on_hand ?? 0,
+      monthly_demand: s.monthly_demand ?? 0,
+      unit_cost: s.unit_cost ?? 0,
+      unit_price: s.unit_price ?? 0,
+      lead_time_days: s.lead_time_days ?? 0,
+    })),
+  };
+}
+
 function newSessionId(): string {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
     return crypto.randomUUID();
@@ -162,7 +185,7 @@ export function OpsProvider({ children }: { children: React.ReactNode }) {
     if (!draftKey || !resultKey) return;
     try {
       const d = window.localStorage.getItem(draftKey);
-      setDraft(d ? (JSON.parse(d) as MetricsDraft) : DEFAULT_DRAFT);
+      setDraft(d ? normalizeDraft(JSON.parse(d) as MetricsDraft) : DEFAULT_DRAFT);
       const r = window.localStorage.getItem(resultKey);
       if (r) {
         const parsed = JSON.parse(r) as {
@@ -218,7 +241,13 @@ export function OpsProvider({ children }: { children: React.ReactNode }) {
             .filter((s) => s.sku.trim())
             .map((s) => [
               s.sku.trim(),
-              { on_hand: s.on_hand, monthly_demand: s.monthly_demand },
+              {
+                on_hand: s.on_hand,
+                monthly_demand: s.monthly_demand,
+                unit_cost: s.unit_cost,
+                unit_price: s.unit_price,
+                lead_time_days: s.lead_time_days,
+              },
             ]),
         ),
       },
@@ -257,7 +286,7 @@ export function OpsProvider({ children }: { children: React.ReactNode }) {
           JSON.stringify({ result: data, at }),
         );
       }
-      saveRun(user.uid, data, {
+      await saveRun(user.uid, data, {
         skuCount: Object.keys(payload.inventory.skus).length,
         vendorCount: payload.suppliers.vendors.length,
         campaignCount: payload.marketing.campaigns.length,

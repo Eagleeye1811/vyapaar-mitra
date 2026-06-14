@@ -10,3 +10,13 @@ export function cn(...inputs: ClassValue[]) {
 export function formatNumber(value: number): string {
   return new Intl.NumberFormat("en-IN").format(value);
 }
+
+/** Format a value as compact INR (e.g. ₹2.3L, ₹1.7Cr) for headline figures. */
+export function formatMoney(value: number): string {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    notation: "compact",
+    maximumFractionDigits: 1,
+  }).format(value || 0);
+}

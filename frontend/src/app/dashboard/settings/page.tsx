@@ -20,7 +20,15 @@ export default function SettingsPage() {
     if (typeof window !== "undefined") {
       setBusinessName(window.localStorage.getItem(BUSINESS_KEY) ?? "");
     }
-    if (user) setRunCount(listRuns(user.uid).length);
+    let active = true;
+    if (user) {
+      listRuns(user.uid).then((r) => {
+        if (active) setRunCount(r.length);
+      });
+    }
+    return () => {
+      active = false;
+    };
   }, [user]);
 
   function handleSaveProfile(e: React.FormEvent) {
@@ -35,9 +43,9 @@ export default function SettingsPage() {
     router.push("/");
   }
 
-  function handleClearHistory() {
+  async function handleClearHistory() {
     if (!user) return;
-    clearRuns(user.uid);
+    await clearRuns(user.uid);
     setRunCount(0);
   }
 

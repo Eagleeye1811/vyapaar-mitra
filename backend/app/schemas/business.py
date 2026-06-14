@@ -32,8 +32,20 @@ class OperationalMetricsPayload(BaseModel):
                 "session_id": "sess_demo_001",
                 "inventory": {
                     "skus": {
-                        "SKU-100": {"on_hand": 90, "monthly_demand": 300},
-                        "SKU-400": {"on_hand": 5000, "monthly_demand": 50},
+                        "SKU-100": {
+                            "on_hand": 90,
+                            "monthly_demand": 300,
+                            "unit_cost": 120,
+                            "unit_price": 320,
+                            "lead_time_days": 21,
+                        },
+                        "SKU-400": {
+                            "on_hand": 5000,
+                            "monthly_demand": 50,
+                            "unit_cost": 35,
+                            "unit_price": 90,
+                            "lead_time_days": 10,
+                        },
                     }
                 },
                 "suppliers": {
